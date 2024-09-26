@@ -1,0 +1,41 @@
+{% extends 'blog/base.html' %} 
+
+{% block content %}
+<main class="main-content single-post section-wrapper">
+  <div class="container">
+    <div class="single-post-content">
+      <div class="text-center">
+        <img loading="lazy" class="img-fluid" src="https://picsum.photos/1920/1080/?rand=12" alt="Change me" style="max-width: 80%; height: auto;">
+      </div>
+      <h2 class="single-post-title text-center pb-3">Lorem ipsum dolor sit amet...</h2>
+      <div class="post-meta d-flex justify-content-center pb-3">
+        <div class="post-meta-item me-3">
+          <a class="post-meta-link" href="#">
+            <i class="fa-solid fa-user"></i> Author Full Name
+          </a>
+        </div>
+        <div class="post-meta-item me-3">
+          <a class="post-meta-link" href="#">
+            <i class="fa-solid fa-calendar-days"></i> 20/04/2023
+          </a>
+        </div>
+        <div class="post-meta-item">
+          <a class="post-meta-link" href="#">
+            <i class="fa-solid fa-tag"></i> Categoria
+          </a>
+        </div>
+      </div>
+      <p class="single-post-excerpt pb-3">Lorem ipsum dolor sit amet consectetur adipisicing elit...</p>
+      <div class="separator mb-4"></div>
+      <div class="post-tags">
+        <span>Tags: </span>
+        {% for tag in tags %}
+          <a class="post-tag-link" href="#">
+            <i class="fa-solid fa-link"></i> {{ tag }}
+          </a>{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock content %}

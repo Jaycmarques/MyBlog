@@ -1,1 +1,38 @@
-<h1>PAGINATION</h1>
+{% if page_obj and page_obj.has_other_pages %}
+<div class="separator"></div>
+<div class="pagination-wrapper section-wrapper">
+    <div class="container">
+        <nav aria-label="Pagination">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1{{ search_url }}" aria-label="Primeira página">
+                            <i class="fa-solid fa-backward-fast"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}{{ search_url }}" aria-label="Página anterior">
+                            <i class="fa-solid fa-circle-chevron-left"></i>
+                        </a>
+                    </li>
+                {% endif %}
+                <li class="page-item disabled">
+                    <span class="page-link">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+                </li>
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}{{ search_url }}" aria-label="Próxima página">
+                            <i class="fa-solid fa-circle-chevron-right"></i>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{{ search_url }}" aria-label="Última página">
+                            <i class="fa-solid fa-forward-fast"></i>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</div>
+{% endif %}

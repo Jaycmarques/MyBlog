@@ -1,0 +1,49 @@
+<article class="card mb-4 shadow-sm hover-effect" style="transition: transform 0.2s ease, box-shadow 0.2s ease;">
+  
+  <div class="card-cover-wrapper">
+    <a href="#" class="text-decoration-none">
+      <img 
+        class="card-cover img-fluid"
+        loading="lazy"
+        src="https://picsum.photos/745/419/?rand=2{{ i }}" 
+        alt="Change me"
+      >
+    </a>
+  </div>
+  
+  <div class="card-body">
+    <h5 class="card-title">
+      <a href="#" class="text-decoration-none text-dark link-hover">
+        Lorem ipsum dolor sit amet.
+      </a>
+    </h5>
+    
+    <p class="card-text">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur nulla omnis, maiores tempore pariatur a obcaecati atque deserunt reiciendis quam! 
+    </p>
+    
+    <div class="d-flex justify-content-end">
+      <a class="btn btn-primary" href="#">
+        <span>Read</span>
+        <i class="fa-solid fa-circle-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+
+  <style>
+    .hover-effect:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .link-hover {
+        color: #343a40; /* Cor padrão (preto) */
+        transition: color 0.2s ease;
+    }
+
+    .link-hover:hover {
+        color: #495057; /* Tom mais claro ao passar o mouse */
+    }
+  </style>
+  
+</article>
