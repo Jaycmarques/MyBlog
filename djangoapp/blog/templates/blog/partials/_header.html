@@ -2,30 +2,42 @@
     <div class="container text-center">
         <div class="section-gap">
             <h1 class="blog-title pb-base mt-3 fw-bold">
-                <a class="blog-link text-decoration-none" href="/">My Blog</a>
+                <a class="blog-link text-decoration-none" href="/">{{ site_setup.title }}</a>
             </h1>
-            <p class="blog-description pb-base mt-3">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit...
-            </p>
-            <div class="search pb-base">
-                <form class="search-form" action="#" method="get">
-                    <div class="input-group justify-content-center" style="max-width: 500px; margin: auto;">
-                        <input class="form-control" type="search" name="search" id="search-input" placeholder="Search">
-                        <button class="btn btn-outline-secondary" type="submit">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
-                </form>
-            </div>
-            <nav class="menu">
-                <ul class="nav justify-content-center menu-items">
-                    <li class="nav-item"><a class="nav-link" href="/post/">Post</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/page/">Page</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">About us</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Support</a></li>
-                </ul>
-            </nav>
+            {% if site_setup.show_description %}
+                <p class="blog-description pb-base mt-3">
+                    {{ site_setup.description }}
+                </p>
+            {% endif %}
+
+            {% if site_setup.show_search %}
+                <div class="search pb-base">
+                    <form class="search-form" action="#" method="get">
+                        <div class="input-group justify-content-center" style="max-width: 500px; margin: auto;">
+                            <input class="form-control" type="search" name="search" id="search-input" placeholder="Search">
+                            <button class="btn btn-outline-secondary" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            {% endif %}
+
+            {% if site_setup.show_search %}
+                <nav class="menu">
+                    <ul class="nav justify-content-center menu-items">
+                        {% for link in site_setup.menulink_set.all  %}
+                            <li class="nav-item">
+                                {% if link.new_tab %}
+                                <a target="_blank" class="nav-link" href="{{ link.url_or_path }}">{{ link.text }}</a>
+                                {% else %}
+                                <a class="nav-link" href="{{ link.url_or_path }}">{{ link.text }}</a>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </nav>
+            {% endif %}
         </div>
     </div>
 </header>
