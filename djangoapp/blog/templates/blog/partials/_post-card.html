@@ -1,29 +1,31 @@
 <article class="card mb-4 shadow-sm hover-effect" style="transition: transform 0.2s ease, box-shadow 0.2s ease;">
   
-  <div class="card-cover-wrapper">
-    <a href="#" class="text-decoration-none">
-      <img 
-        class="card-cover img-fluid"
-        loading="lazy"
-        src="https://picsum.photos/745/419/?rand=2{{ i }}" 
-        alt="Change me"
-      >
-    </a>
-  </div>
-  
+  {% if post.cover %}
+    <div class="card-cover-wrapper">
+      <a href="{% url 'blog:post' post.slug %}" class="text-decoration-none">
+        <img 
+          class="card-cover img-fluid"
+          loading="lazy"
+          src="{{ post.cover.url }}" 
+          alt="Post cover {{ post.title }}"
+        >
+      </a>
+    </div>
+  {% endif %}
+
   <div class="card-body">
     <h5 class="card-title">
-      <a href="#" class="text-decoration-none text-dark link-hover">
-        Lorem ipsum dolor sit amet.
+      <a href="{% url 'blog:post' post.slug %}" class="text-decoration-none text-dark link-hover">
+        {{ post.title }}
       </a>
     </h5>
     
     <p class="card-text">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur nulla omnis, maiores tempore pariatur a obcaecati atque deserunt reiciendis quam! 
+      {{ post.excerpt }} 
     </p>
     
     <div class="d-flex justify-content-end">
-      <a class="btn text-primary border-0" href="#" style="background-color: transparent;">
+      <a class="btn text-primary border-0" href="{% url 'blog:post' post.slug %}" style="background-color: transparent;">
         <span>Read</span>
         <i class="fa-solid fa-circle-arrow-right text-primary"></i>
       </a>
