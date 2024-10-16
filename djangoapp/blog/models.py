@@ -3,6 +3,7 @@ from utils.images import resize_image
 from utils.rands import slugify_new
 from django.contrib.auth.models import User
 from django_summernote.models import AbstractAttachment
+from django.urls import reverse
 
 
 class PostAttachment(AbstractAttachment):
@@ -103,7 +104,7 @@ class Post(models.Model):
         unique=True, default="",
         null=False, blank=True, max_length=255,
     )
-    excerpt = models.CharField(max_length=150)
+    excerpt = models.CharField(max_length=250)
     is_published = models.BooleanField(
         default=False,
         help_text='If box unchecked, post not available in the website.'
@@ -132,6 +133,11 @@ class Post(models.Model):
         Category, on_delete=models.SET_NULL, null=True, blank=True, default=None,
     )
     tag = models.ManyToManyField(Tag, blank=True, default='')
+
+    def get_absolute_url(self):
+        if not self.is_published:
+            return reverse('blog:index')
+        return reverse('blog:post', args=(self.slug,))
 
     def save(self, *args, **kwargs):
         if not self.slug:

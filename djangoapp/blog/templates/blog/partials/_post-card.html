@@ -1,8 +1,8 @@
-<article class="card mb-4 shadow-sm hover-effect" style="transition: transform 0.2s ease, box-shadow 0.2s ease;">
+<article class="card mb-4 shadow-sm hover-effect h-100" style="transition: transform 0.2s ease, box-shadow 0.2s ease;">
   
   {% if post.cover %}
     <div class="card-cover-wrapper">
-      <a href="{% url 'blog:post' post.slug %}" class="text-decoration-none">
+      <a href="{{ post.get_absolute_url }}" class="text-decoration-none">
         <img 
           class="card-cover img-fluid"
           loading="lazy"
@@ -13,9 +13,9 @@
     </div>
   {% endif %}
 
-  <div class="card-body">
+  <div class="card-body d-flex flex-column">
     <h5 class="card-title">
-      <a href="{% url 'blog:post' post.slug %}" class="text-decoration-none text-dark link-hover">
+      <a href="{{ post.get_absolute_url }}" class="text-decoration-none text-dark link-hover">
         {{ post.title }}
       </a>
     </h5>
@@ -24,8 +24,9 @@
       {{ post.excerpt }} 
     </p>
     
-    <div class="d-flex justify-content-end">
-      <a class="btn text-primary border-0" href="{% url 'blog:post' post.slug %}" style="background-color: transparent;">
+    <!-- Flex-grow to push the button to the bottom -->
+    <div class="mt-auto d-flex justify-content-end">
+      <a class="btn text-primary border-0" href="{{ post.get_absolute_url }}" style="background-color: transparent;">
         <span>Read</span>
         <i class="fa-solid fa-circle-arrow-right text-primary"></i>
       </a>
@@ -37,7 +38,19 @@
         transform: translateY(-5px);
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     }
-    
+
+    /* Ensure all cards have the same height */
+    .card {
+        min-height: 150px; /* Adjust this value based on your design */
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 200px; /* Ensures that the content area of the card remains consistent */
+    }
+
     .link-hover {
         color: #343a40; /* Cor padrão (preto) */
         transition: color 0.2s ease;

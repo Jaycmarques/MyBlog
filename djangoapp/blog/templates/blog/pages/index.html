@@ -4,11 +4,18 @@
   <main class="main-content section-wrapper">
     <div class="container">
       <div class="row">
-        {% for post in page_obj %}
-          <div class="col-md-4 mb-4">
-            {% include 'blog/partials/_post-card.html' with i=forloop.counter0 %}
+        {% if page_obj %}
+          {% for post in page_obj %}
+          <div class="col-md-4 mb-4">  
+              {% include 'blog/partials/_post-card.html' with i=forloop.counter0 %}
           </div>
-        {% endfor %}
+          {% endfor %}
+        {% else %}
+        <div class="not-found d-flex flex-column justify-content-center align-items-center min-vh-10 gap-3">
+          <h1>Page not Found</h1>
+          <a href="{% url 'blog:index' %}" class="btn btn-primary">Home</a>
+        </div>
+        {% endif %}
       </div>
     </div>
   </main>
