@@ -137,7 +137,7 @@ class Post(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.SET_NULL, null=True, blank=True, default=None,
     )
-    tag = models.ManyToManyField(Tag, blank=True, default='')
+    tags = models.ManyToManyField(Tag, blank=True, default='')
 
     def get_absolute_url(self):
         if not self.is_published:

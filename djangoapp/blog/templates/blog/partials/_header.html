@@ -4,7 +4,8 @@
             <h1 class="blog-title pb-base mt-3 fw-bold">
                 <a class="blog-link text-decoration-none" href="/">{{ site_setup.title }}</a>
             </h1>
-            {% if site_setup.show_description %}
+
+            {% if site_setup.show_description and show_description|default_if_none:True %}
                 <p class="blog-description pb-base mt-3">
                     {{ site_setup.description }}
                 </p>
@@ -26,12 +27,12 @@
             {% if site_setup.show_search %}
                 <nav class="menu">
                     <ul class="nav justify-content-center menu-items">
-                        {% for link in site_setup.menulink_set.all  %}
+                        {% for link in site_setup.menulink_set.all %}
                             <li class="nav-item">
                                 {% if link.new_tab %}
-                                <a target="_blank" class="nav-link" href="{{ link.url_or_path }}">{{ link.text }}</a>
+                                    <a target="_blank" class="nav-link" href="{{ link.url_or_path }}">{{ link.text }}</a>
                                 {% else %}
-                                <a class="nav-link" href="{{ link.url_or_path }}">{{ link.text }}</a>
+                                    <a class="nav-link" href="{{ link.url_or_path }}">{{ link.text }}</a>
                                 {% endif %}
                             </li>
                         {% endfor %}
