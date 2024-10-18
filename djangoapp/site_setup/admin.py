@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.http import HttpRequest
 from site_setup.models import MenuLink, SiteSetup
+from adminsortable2.admin import SortableAdminBase, SortableTabularInline
 
 
 # @admin.register(MenuLink)
@@ -10,15 +11,19 @@ from site_setup.models import MenuLink, SiteSetup
 #     search_fields = 'id', 'text', 'url_or_path',
 
 
-class MenuLinkInline(admin.TabularInline):
+class MenuLinkInline(SortableTabularInline):
     model = MenuLink
     extra = 1
+    fields = ['text', 'url_or_path', 'new_tab', 'order']
 
 
 @admin.register(SiteSetup)
-class SiteSetupAdmin(admin.ModelAdmin):
-    list_display = 'title', 'description',
-    inlines = MenuLinkInline,
+# Aqui, herde de SortableAdminBase
+class SiteSetupAdmin(SortableAdminBase, admin.ModelAdmin):
+    inlines = [MenuLinkInline]
+    # Ajuste para exibir os campos desejados
+    list_display = ('title', 'description')
 
-    def has_add_permission(self, request: HttpRequest) -> bool:
-        return not SiteSetup.objects.exists()
+
+def has_add_permission(self, request: HttpRequest) -> bool:
+    return not SiteSetup.objects.exists()

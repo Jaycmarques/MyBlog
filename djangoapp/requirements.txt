@@ -2,3 +2,4 @@ Django>=5.1.1,<5.2
 psycopg2-binary>=2.9.9,<2.10
 pillow>=10.4.0,<10.5
 django-summernote>=0.8.20.0,<0.8.21
+django-admin-sortable2>=2.2.3,<2.2.4

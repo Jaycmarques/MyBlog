@@ -141,16 +141,16 @@ def search(request):
 
 def page(request, slug):
     # Tenta obter a página correspondente ao slug. Se não existir, retorna 404.
-    page = get_object_or_404(Page, is_published=True, slug=slug)
+    page_obj = get_object_or_404(Page, is_published=True, slug=slug)
 
     # Define o título da página com o título da página
-    page_title = f'{page.title} - '  # Personalize conforme necessário
+    page_title = f'{page_obj.title} - '  # Personalize conforme necessário
 
     return render(
         request,
         'blog/pages/page.html',
         {
-            'page': page,
+            'page': page_obj,
             'show_description': False,
             'page_title': page_title,  # Adiciona o título da página ao contexto
         }
@@ -159,19 +159,19 @@ def page(request, slug):
 
 def post(request, slug):
     # Tenta obter o post correspondente ao slug. Se não existir, retorna 404.
-    post = get_object_or_404(Post.objects.get_published(), slug=slug)
+    post_obj = get_object_or_404(Post.objects.get_published(), slug=slug)
 
     # Se o modelo Post tiver uma relação ManyToMany com Tag
-    tags = post.tags.all()  # Isso obtém todas as tags associadas ao post
+    tags = post_obj.tags.all()  # Isso obtém todas as tags associadas ao post
 
     # Define o título da página com o título do post
-    page_title = f'{post.title} - '
+    page_title = f'{post_obj.title} - '
 
     return render(
         request,
         'blog/pages/post.html',
         {
-            'post': post,
+            'post': post_obj,
             'tags': tags,
             'page_title': page_title,  # Adiciona o título da página ao contexto
         }

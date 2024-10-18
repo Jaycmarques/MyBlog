@@ -33,6 +33,7 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'adminsortable2',
     'django_summernote',
     'blog',
     'site_setup',

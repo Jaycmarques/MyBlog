@@ -4,9 +4,6 @@ from utils.images import resize_image
 
 
 class MenuLink(models.Model):
-    class Meta:
-        verbose_name = 'Menu Link'
-        verbose_name_plural = 'Menu Links'
     text = models.CharField(max_length=50)
     url_or_path = models.CharField(max_length=2048)
     new_tab = models.BooleanField(default=True)
@@ -14,6 +11,23 @@ class MenuLink(models.Model):
         'SiteSetup', on_delete=models.CASCADE, blank=True, null=True,
         default=None,
     )
+    order = models.PositiveIntegerField(
+        default=0, verbose_name="Order"
+    )  # Novo campo de ordenação
+
+    class Meta:
+        verbose_name = 'Menu Link'
+        verbose_name_plural = 'Menu Links'
+        # Adicione esta linha para definir a ordenação padrão
+        ordering = ['order']
+
+    def save(self, *args, **kwargs):
+        if not self.order:
+            # Atribui um novo valor de 'order' se não estiver definido
+            max_order = MenuLink.objects.filter(site_setup=self.site_setup).aggregate(
+                max_order=models.Max('order'))['max_order']
+            self.order = (max_order or 0) + 1
+        super(MenuLink, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.text
