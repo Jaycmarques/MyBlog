@@ -2,7 +2,7 @@ from typing import Any
 from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.http import Http404
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from .models import Post, Page
 from django.db.models import Q, QuerySet
 from django.views.generic import ListView
@@ -204,38 +204,69 @@ class TagListView(PostListView):
 #         }
 #     )
 
+class SearchListView(PostListView):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._search_value = ''
 
-def search(request):
-    search_value = request.GET.get('search', '').strip()
+    def setup(self, request, *args, **kwargs):
+        self._search_value = request.GET.get('search', '').strip()
+        return super().setup(request, *args, **kwargs)
 
-    # Verifica se o search_value não está vazio
-    if search_value:
-        posts = (Post.objects.get_published()
-                 .filter(
-                     Q(title__icontains=search_value) |
-                     Q(excerpt__icontains=search_value) |
-                     Q(content__icontains=search_value)
-        ))
-    else:
-        posts = Post.objects.none()  # Retorna uma QuerySet vazia se não houver valor de busca
+    def get_queryset(self) -> QuerySet[Any]:
+        search_value = self._search_value
+        return super().get_queryset().filter(
+            Q(title__icontains=search_value) |
+            Q(excerpt__icontains=search_value) |
+            Q(content__icontains=search_value)
+        )[:PER_PAGE]
 
-    # Definindo o título da página
-    page_title = f'Search results for: {search_value[:30]} - ' if search_value else 'Search - '
-
-    # Paginação
-    paginator = Paginator(posts, PER_PAGE)
-    page_number = request.GET.get("page")
-    page_obj = paginator.get_page(page_number)
-
-    return render(
-        request,
-        'blog/pages/index.html',
-        {
-            'page_obj': page_obj,  # Passa o objeto paginado
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        search_value = self._search_value
+        ctx.update({
+            'page_title': f'{search_value[:30]} - Search - ',
             'search_value': search_value,
-            'page_title': page_title,
-        }
-    )
+        })
+        return ctx
+
+    def get(self, request, *args, **kwargs):
+        if self._search_value == '':
+            return redirect('blog:index')
+        return super().get(request, *args, **kwargs)
+
+
+# def search(request):
+#     search_value = request.GET.get('search', '').strip()
+
+#     # Verifica se o search_value não está vazio
+#     if search_value:
+#         posts = (Post.objects.get_published()
+#                  .filter(
+#                      Q(title__icontains=search_value) |
+#                      Q(excerpt__icontains=search_value) |
+#                      Q(content__icontains=search_value)
+#         ))
+#     else:
+#         posts = Post.objects.none()  # Retorna uma QuerySet vazia se não houver valor de busca
+
+#     # Definindo o título da página
+#     page_title = f'Search results for: {search_value[:30]} - ' if search_value else 'Search - '
+
+#     # Paginação
+#     paginator = Paginator(posts, PER_PAGE)
+#     page_number = request.GET.get("page")
+#     page_obj = paginator.get_page(page_number)
+
+#     return render(
+#         request,
+#         'blog/pages/index.html',
+#         {
+#             'page_obj': page_obj,  # Passa o objeto paginado
+#             'search_value': search_value,
+#             'page_title': page_title,
+#         }
+#     )
 
 
 def page(request, slug):

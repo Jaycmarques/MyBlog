@@ -15,7 +15,16 @@
                 <div class="search pb-base">
                     <form class="search-form" action="{% url 'blog:search' %}" method="get">
                         <div class="input-group justify-content-center" style="max-width: 500px; margin: auto;">
-                            <input class="form-control" type="search" name="search" id="search-input" placeholder="Search" value="{{ search_value }}">
+                            <input 
+                            class="form-control" 
+                            type="search" name="search" 
+                            id="search-input" 
+                            placeholder="Search" 
+                            value="{{ search_value }}"
+                            required
+                            oninvalid="this.setCustomValidity('Please fill out this field')"
+                            oninput="this.setCustomValidity('')"
+                            >
                             <button class="btn btn-outline-secondary" type="submit">
                                 <i class="fa fa-search"></i>
                             </button>
