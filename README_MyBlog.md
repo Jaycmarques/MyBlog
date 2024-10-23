@@ -41,25 +41,20 @@ To run this project locally, follow these steps:
    cd MyBlog
    ```
 
-2. Set up a virtual environment and install dependencies using Pipenv:
+2. Build the Docker containers:
    ```bash
-   pip install pipenv
-   pipenv install --dev
-   pipenv shell
+   docker-compose build
    ```
 
-3. Run migrations:
+3. Start the Docker containers:
    ```bash
-   python manage.py migrate
+   docker-compose up
    ```
 
-4. Start the development server:
+4. Run migrations: Open a new terminal window (keeping the previous one running) and execute:
    ```bash
-   python manage.py runserver
+   docker-compose exec web python manage.py migrate
    ```
 
 5. Open your browser and go to `http://localhost:8000` to view the site locally.
 
-## Repository
-The source code for this project is available on GitHub:
-- [GitHub Repository](https://github.com/Jaycmarques/MyBlog)
